@@ -1,5 +1,7 @@
 package io.ipfs.cluster.api;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import io.ipfs.cid.*;
 import io.ipfs.multihash.Multihash;
 import io.ipfs.multiaddr.MultiAddress;
@@ -25,7 +27,7 @@ public class IPFSCluster {
      */
     public class Pin {
         public List<Multihash> add(Multihash hash) throws IOException {
-            return ((List<Object>)((Map)retrieveAndParse("pin/add?stream-channels=true&arg=" + hash)).get("Pins"))
+            return ((List<Object>)((Map)retrieveAndParse("pins/add?stream-channels=true&arg=" + hash)).get("Pins"))
                     .stream()
                     .map(x -> Cid.decode((String) x))
                     .collect(Collectors.toList());
@@ -36,7 +38,7 @@ public class IPFSCluster {
         }
 
         public Map<Multihash, Object> ls(PinType type) throws IOException {
-            return ((Map<String, Object>)(((Map)retrieveAndParse("pin/ls?stream-channels=true&t="+type.name())).get("Keys"))).entrySet()
+            return ((Map<String, Object>)(((Map)retrieveAndParse("pins?stream-channels=true&t="+type.name())).get("Keys"))).entrySet()
                     .stream()
                     .collect(Collectors.toMap(x -> Cid.decode(x.getKey()), x-> x.getValue()));
         }
@@ -46,7 +48,7 @@ public class IPFSCluster {
         }
 
         public List<Multihash> rm(Multihash hash, boolean recursive) throws IOException {
-            Map json = retrieveMap("pin/rm?stream-channels=true&r=" + recursive + "&arg=" + hash);
+            Map json = retrieveMap("pins/rm?stream-channels=true&r=" + recursive + "&arg=" + hash);
             return ((List<Object>) json.get("Pins")).stream().map(x -> Cid.decode((String) x)).collect(Collectors.toList());
         }
     }
@@ -59,15 +61,20 @@ public class IPFSCluster {
                     .collect(Collectors.toList());
         }
 
-        public Map<Multihash, Object> ls() throws IOException {
-            return ls(PinType.direct);
+        public List<Map<String, Object>> ls() throws IOException {
+            List<Map<String, Object>> map = ((List<Map<String, Object>>)retrieveAndParse("peers"));
+            return map;
         }
 
-        public Map<Multihash, Object> ls(PinType type) throws IOException {
-            return ((Map<String, Object>)(((Map)retrieveAndParse("peers/ls?stream-channels=true&t="+type.name())).get("Keys"))).entrySet()
-                    .stream()
-                    .collect(Collectors.toMap(x -> Cid.decode(x.getKey()), x-> x.getValue()));
-        }
+//        public Map<Multihash, Object> ls() throws IOException {
+//            return ls(PinType.direct);
+//        }
+
+//        public Map<Multihash, Object> ls(PinType type) throws IOException {
+//            return ((Map<String, Object>)(((Map)retrieveAndParse("peers")).get("Keys"))).entrySet()
+//                    .stream()
+//                    .collect(Collectors.toMap(x -> Cid.decode(x.getKey()), x-> x.getValue()));
+//        }
 
         public List<Multihash> rm(Multihash hash) throws IOException {
             return rm(hash, true);
