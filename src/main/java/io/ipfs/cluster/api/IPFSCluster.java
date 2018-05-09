@@ -132,7 +132,7 @@ public class IPFSCluster {
     }
 
     private byte[] retrieve(String path) throws IOException {
-        URL target = new URL("http", host, port, version + path);
+        URL target = new URL("http", host, port, "/" + path);
         return IPFSCluster.get(target);
     }
 
