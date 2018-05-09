@@ -3,6 +3,7 @@ package io.ipfs.cluster.api;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.ipfs.cid.*;
+import io.ipfs.cluster.api.http.Pins;
 import io.ipfs.multihash.Multihash;
 import io.ipfs.multiaddr.MultiAddress;
 
@@ -52,7 +53,9 @@ public class IPFSCluster {
             return ((List<Object>) json.get("Pins")).stream().map(x -> Cid.decode((String) x)).collect(Collectors.toList());
         }
     }
-
+    public Pins pins(String cid) throws MalformedURLException {
+        return new Pins("http://"+host+":"+port+"/pins/"+cid);
+    }
     public class Peers {
         public List<Multihash> add(Multihash hash) throws IOException {
             return ((List<Object>)((Map)retrieveAndParse("peers/add?stream-channels=true&arg=" + hash)).get("Pins"))
