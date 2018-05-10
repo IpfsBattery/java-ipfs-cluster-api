@@ -1,4 +1,4 @@
-package io.ipfs.cluster.api.http;
+package org.ipfsbox.battery.api.http;
 
 /**
  * @file HttpUtil.java
