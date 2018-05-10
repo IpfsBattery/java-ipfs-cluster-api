@@ -7,6 +7,10 @@ import org.ipfsbox.battery.api.http.HttpUtil;
 
 import java.io.*;
 
+/**
+ * @author liang
+ * @Date 2018.5.9
+ * */
 public class IPFSCluster {
 
     public final String host;

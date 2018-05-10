@@ -103,17 +103,6 @@
 			<artifactId>commons-logging</artifactId>
 			<version>1.2</version>
 		</dependency>
-        <dependency>
-            <groupId>io.ipfs.cluster</groupId>
-            <artifactId>api</artifactId>
-            <version>v0.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>io.ipfs.cluster</groupId>
-            <artifactId>api</artifactId>
-            <version>v0.0.1</version>
-        </dependency>
-
 
     </dependencies>
 
