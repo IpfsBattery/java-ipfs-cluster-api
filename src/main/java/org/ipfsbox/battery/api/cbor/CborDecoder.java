@@ -7,6 +7,8 @@ package org.ipfsbox.battery.api.cbor;
  */
 
 import java.io.*;
+import static org.ipfsbox.battery.api.cbor.CborConstants.*;
+import static org.ipfsbox.battery.api.cbor.CborType.*;
 
 /**
  * Provides a decoder capable of handling CBOR encoded data from a {@link InputStream}.

@@ -1,54 +1,35 @@
 package io.ipfs.cluster.api;
 
-import io.ipfs.cluster.api.http.Pins;
-import io.ipfs.multihash.Multihash;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
-
-import java.io.IOException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class TEST {
+
+    public static Log log = LogFactory.getLog(TEST.class);
 
     public static void main(String args[]){
 
         IPFSCluster ipfsCluster = new IPFSCluster("127.0.0.1", 9094);
         try {
-            System.out.println("id" + ipfsCluster.id());
-            System.out.println("version" + ipfsCluster.version());
-            System.out.println("peers.ls" + ipfsCluster.peers.ls());
-            System.out.println("pin.ls" + ipfsCluster.peers.ls());
-//            System.out.println("pin.ls" + ipfsCluster.pins);
-            Pins pins = ipfsCluster.pins("QmdJbpQWDKsgwmiSw7tTvL42Wy6M3YYz1DnnYK2bGAUzLR");
-            pins.get(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
 
-e.printStackTrace();
-                }
+            log.info("ipfsCluster id :" + ipfsCluster.id());
+            log.info("ipfsCluster version:" + ipfsCluster.version());
+            log.info("ipfsCluster Pins :" +ipfsCluster.pins.add("QmdJbpQWDKsgwmiSw7tTvL42Wy6M3YYz1DnnYK2bGAUzLR"));
+            log.info("ipfsCluster Pins :" +ipfsCluster.pins.ls("QmdJbpQWDKsgwmiSw7tTvL42Wy6M3YYz1DnnYK2bGAUzLR"));
+            log.info("ipfsCluster Pins :" +ipfsCluster.pins.ls());
+            log.info("ipfsCluster Pins :" +ipfsCluster.pins.rm("QmdJbpQWDKsgwmiSw7tTvL42Wy6M3YYz1DnnYK2bGAUzLR"));
+            log.info("ipfsCluster Pins :" +ipfsCluster.pins.ls());
+            log.info("ipfsCluster Peers :" + ipfsCluster.peers.ls());
+            log.info("ipfsCluster Sync :" + ipfsCluster.sync.sync("QmdJbpQWDKsgwmiSw7tTvL42Wy6M3YYz1DnnYK2bGAUzLR"));
+            log.info("ipfsCluster Sync :" + ipfsCluster.sync.sync());
+//            log.info("ipfsCluster Recover :" + ipfsCluster.recover.recover("QmdJbpQWDKsgwmiSw7tTvL42Wy6M3YYz1DnnYK2bGAUzLR"));
+//            log.info("ipfsCluster Recover :" + ipfsCluster.recover.recover());
+//            log.info("ipfsCluster Allocation :" + ipfsCluster.allocation.ls());
+//            log.info("ipfsCluster Allocation :" + ipfsCluster.allocation.ls("QmdJbpQWDKsgwmiSw7tTvL42Wy6M3YYz1DnnYK2bGAUzLR"));
+            log.info("ipfsCluster Health :" + ipfsCluster.health.graph());
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if (response.code()==202) {
-                        pins.get(new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-e.printStackTrace();
-                            }
 
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                String s = response.body().string();
-                                System.out.print(s);
-                            }
-                        });
-                    }
-                    String s = response.body().string();
-                    System.out.print(s);
-                }
-            });
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
